@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group 'com.github.crafttogether'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.3") {
+        exclude module: "opus-java"
+    }
+    implementation "org.slf4j:slf4j-api:2.0.0-alpha5"
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+}
