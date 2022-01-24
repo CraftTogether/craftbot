@@ -52,6 +52,11 @@ public class CraftBot {
 
         assert config != null;
         jda = JDABuilder.createLight(config.getToken())
+                .addEventListeners(new CommandHandler())
                 .build();
+    }
+
+    public static void addSlashCommand(String name, String description) {
+        jda.upsertCommand(name, description).queue();
     }
 }
