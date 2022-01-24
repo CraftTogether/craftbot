@@ -9,11 +9,7 @@ public class CommandHandler extends ListenerAdapter {
 
     private HashMap<String, Command> commands = new HashMap<>();
 
-    public CommandHandler() {
-    }
-
-    public void addCommand(String commandName, String commandDescription, Command command) {
-        CraftBot.addSlashCommand(commandName, commandDescription);
+    public void addCommand(String commandName, Command command) {
         commands.put(commandName, command);
     }
 

@@ -1,5 +1,6 @@
 package com.github.crafttogether.craftbot;
 
+import com.github.crafttogether.craftbot.commands.TestCommand;
 import com.moandjiezana.toml.Toml;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 
 public class CraftBot {
     private static final Logger logger = LoggerFactory.getLogger(CraftBot.class);
+    private static CommandHandler handler = new CommandHandler();
     private static JDA jda;
 
     private static Config parseConfig() throws FileNotFoundException {
@@ -33,7 +35,7 @@ public class CraftBot {
         Files.copy(defaultConfig, Path.of("config.toml"));
     }
 
-    public static void main(String[] args) throws LoginException, IOException {
+    public static void main(String[] args) throws LoginException, IOException, InterruptedException {
         Config config = null;
         try {
             config = parseConfig();
@@ -52,11 +54,16 @@ public class CraftBot {
 
         assert config != null;
         jda = JDABuilder.createLight(config.getToken())
-                .addEventListeners(new CommandHandler())
-                .build();
+                .addEventListeners(handler)
+                .build()
+                .awaitReady();
+
+        // Add commands
+        addSlashCommand("test", "test command", new TestCommand());
     }
 
-    public static void addSlashCommand(String name, String description) {
+    public static void addSlashCommand(String name, String description, Command command) {
         jda.upsertCommand(name, description).queue();
+        handler.addCommand(name, command);
     }
 }
