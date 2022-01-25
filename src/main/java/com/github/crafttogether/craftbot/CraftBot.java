@@ -35,7 +35,7 @@ public class CraftBot {
         Files.copy(defaultConfig, Path.of("config.toml"));
     }
 
-    public static void main(String[] args) throws LoginException, IOException, InterruptedException {
+    public static void main(String[] args) throws LoginException, InterruptedException {
         Config config = null;
         try {
             config = parseConfig();
