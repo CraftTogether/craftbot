@@ -1,6 +1,7 @@
 package com.github.crafttogether.craftbot;
 
 import com.github.crafttogether.craftbot.commands.TestCommand;
+import com.github.crafttogether.craftbot.listeners.Interactions;
 import com.moandjiezana.toml.Toml;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -16,15 +17,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class CraftBot {
+    private static Config config;
     private static final Logger logger = LoggerFactory.getLogger(CraftBot.class);
     private static CommandHandler handler = new CommandHandler();
     private static JDA jda;
 
-    private static Config parseConfig() throws FileNotFoundException {
+    public static Config getConfig() {
+        return config;
+    }
+
+    private static Config loadConfig() throws FileNotFoundException {
         logger.info("Loading configuration");
-        Toml toml = new Toml().read(new FileInputStream("config.toml"));
-        Config config =  new Config()
-                .setToken(toml.getString("token"));
+        final Toml toml = new Toml().read(new FileInputStream("config.toml"));
+        System.out.println(toml.getString("token"));
+        config = new Config(
+                toml.getString("token"),
+                toml.getString("guildId"),
+                toml.getString("roleId"),
+                toml.getString("interactionsChannel"),
+                toml.getString("interactionsMessage")
+        );
         logger.info("Successfully loaded configuration");
         return config;
     }
@@ -36,9 +48,8 @@ public class CraftBot {
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        Config config = null;
         try {
-            config = parseConfig();
+            loadConfig();
         } catch (FileNotFoundException e) {
             logger.error("Could not find config.toml, attempting to generate one...");
             try {
@@ -54,7 +65,7 @@ public class CraftBot {
 
         assert config != null;
         jda = JDABuilder.createLight(config.getToken())
-                .addEventListeners(handler)
+                .addEventListeners(handler, new Interactions())
                 .build()
                 .awaitReady();
 
