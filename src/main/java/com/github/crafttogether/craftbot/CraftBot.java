@@ -65,7 +65,7 @@ public class CraftBot {
 
         assert config != null;
         jda = JDABuilder.createLight(config.getToken())
-                .addEventListeners(handler, new Interactions())
+                .addEventListeners(handler, new SystemCommands(), new Interactions())
                 .build()
                 .awaitReady();
 
