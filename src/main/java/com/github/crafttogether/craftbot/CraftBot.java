@@ -35,7 +35,8 @@ public class CraftBot {
                 toml.getString("guildId"),
                 toml.getString("roleId"),
                 toml.getString("interactionsChannel"),
-                toml.getString("interactionsMessage")
+                toml.getString("interactionsMessage"),
+                toml.getString("systemCommandsRole")
         );
         logger.info("Successfully loaded configuration");
         return config;
