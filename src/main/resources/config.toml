@@ -1,1 +1,6 @@
 token = "" # Discord bot token
+guildId = "" # Server id
+roleId = ""
+interactionsChannel = "" # Channel where button roles get sent in
+interactionsMessage = "" # Message which should contain the button roles
+systemCommandsRole = "" # Role which is allowed to use system commands
