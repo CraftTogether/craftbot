@@ -1,7 +1,7 @@
-package com.github.crafttogether.craftbot;
+package xyz.crafttogether.craftbot;
 
-import com.github.crafttogether.craftbot.commands.TestCommand;
-import com.github.crafttogether.craftbot.listeners.Interactions;
+import xyz.crafttogether.craftbot.commands.TestCommand;
+import xyz.crafttogether.craftbot.listeners.Interactions;
 import com.moandjiezana.toml.Toml;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

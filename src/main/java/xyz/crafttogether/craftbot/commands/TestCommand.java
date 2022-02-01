@@ -1,6 +1,6 @@
-package com.github.crafttogether.craftbot.commands;
+package xyz.crafttogether.craftbot.commands;
 
-import com.github.crafttogether.craftbot.Command;
+import xyz.crafttogether.craftbot.Command;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 
 public class TestCommand implements Command {

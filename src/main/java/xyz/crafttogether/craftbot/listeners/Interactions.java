@@ -1,6 +1,6 @@
-package com.github.crafttogether.craftbot.listeners;
+package xyz.crafttogether.craftbot.listeners;
 
-import com.github.crafttogether.craftbot.CraftBot;
+import xyz.crafttogether.craftbot.CraftBot;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;

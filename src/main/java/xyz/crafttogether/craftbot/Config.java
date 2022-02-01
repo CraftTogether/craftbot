@@ -1,4 +1,4 @@
-package com.github.crafttogether.craftbot;
+package xyz.crafttogether.craftbot;
 
 public class Config {
     private final String token;

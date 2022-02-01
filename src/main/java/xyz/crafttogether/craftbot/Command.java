@@ -1,4 +1,4 @@
-package com.github.crafttogether.craftbot;
+package xyz.crafttogether.craftbot;
 
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 
