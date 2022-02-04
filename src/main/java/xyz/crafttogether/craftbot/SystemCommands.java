@@ -13,7 +13,7 @@ public class SystemCommands extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (!event.getGuild().getId().equals(CraftBot.getConfig().getGuildId())) return;
+        if (!event.getGuild().getId().equals(CraftBot.getConfig().getSystemCommandsRole())) return;
         if (event.getMember() == null) return;
         if (event.getMember().getRoles().stream().map(Role::getId).noneMatch(CraftBot.getConfig().getSystemCommandsRole()::equals)) return;
 

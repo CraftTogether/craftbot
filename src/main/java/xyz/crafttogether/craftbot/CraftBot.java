@@ -1,5 +1,8 @@
 package xyz.crafttogether.craftbot;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import xyz.crafttogether.craftbot.commands.TestCommand;
@@ -12,10 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -31,32 +31,23 @@ public class CraftBot {
 
     private static Config loadConfig() throws FileNotFoundException {
         logger.info("Loading configuration");
-        final Toml toml = new Toml().read(new FileInputStream("config.toml"));
-        System.out.println(toml.getString("token"));
-        config = new Config(
-                toml.getString("token"),
-                toml.getString("guildId"),
-                toml.getString("roleId"),
-                toml.getString("interactionsChannel"),
-                toml.getString("interactionsMessage"),
-                toml.getString("systemCommandsRole"),
-                toml.getString("voiceChannelId")
-        );
+        final JsonObject json = (JsonObject) JsonParser.parseReader(new FileReader("config.json"));
+        config = new Config(json);
         logger.info("Successfully loaded configuration");
         return config;
     }
 
     private static void generateConfig() throws IOException {
-        InputStream defaultConfig = CraftBot.class.getResourceAsStream("/config.toml");
+        final InputStream defaultConfig = CraftBot.class.getResourceAsStream("/config.json");
         assert defaultConfig != null;
-        Files.copy(defaultConfig, Path.of("config.toml"));
+        Files.copy(defaultConfig, Path.of("config.json"));
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         try {
             loadConfig();
         } catch (FileNotFoundException e) {
-            logger.error("Could not find config.toml, attempting to generate one...");
+            logger.error("Could not find config.json, attempting to generate one...");
             try {
                 generateConfig();
                 logger.info("Successfully generated default config, exiting...");

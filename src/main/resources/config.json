@@ -1,0 +1,11 @@
+{
+  "token": "",
+  "guild": "",
+  "system-commands-role": "",
+  "button-roles": {
+    "channel": "",
+    "message": "",
+    "roles": []
+  },
+  "vc-hub": ""
+}
