@@ -13,23 +13,22 @@ public class SystemCommands extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (event.getGuild().getId().equals(CraftBot.getConfig().getGuildId())) {
-            if (event.getMember().getRoles().stream().map(Role::getId).noneMatch(CraftBot.getConfig().getSystemCommandsRole()::equals)) return;
+        if (!event.getGuild().getId().equals(CraftBot.getConfig().getGuildId())) return;
+        if (event.getMember() == null) return;
+        if (event.getMember().getRoles().stream().map(Role::getId).noneMatch(CraftBot.getConfig().getSystemCommandsRole()::equals)) return;
 
-            String message = event.getMessage().getContentRaw();
-            if (!message.matches("<@!?" + event.getJDA().getSelfUser().getId() + ">.*")) return;
-            if (message.startsWith("<@!")) message = message.replace("<@!", "<@");
-            final String botMention = event.getJDA().getSelfUser().getAsMention();
+        String message = event.getMessage().getContentRaw();
+        if (!message.matches("<@!?" + event.getJDA().getSelfUser().getId() + ">.*")) return;
+        if (message.startsWith("<@!")) message = message.replace("<@!", "<@");
+        final String botMention = event.getJDA().getSelfUser().getAsMention();
 
-            final String[] split = message.replaceFirst(botMention, "").split("\s+", 2);
-            final String command = split[0];
-            final String arguments = split[1];
+        final String[] split = message.replaceFirst(botMention, "").split("\s+", 2);
+        final String command = split[0];
+        final String arguments = split[1];
 
-            switch (command) {
-                case "write":
-                    onWriteCommand(event, arguments);
-            }
-
+        switch (command) {
+            case "write":
+                onWriteCommand(event, arguments);
         }
     }
 
