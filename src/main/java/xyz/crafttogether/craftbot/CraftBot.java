@@ -1,6 +1,9 @@
 package xyz.crafttogether.craftbot;
 
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import xyz.crafttogether.craftbot.commands.TestCommand;
+import xyz.crafttogether.craftbot.listeners.CustomVoiceCall;
 import xyz.crafttogether.craftbot.listeners.Interactions;
 import com.moandjiezana.toml.Toml;
 import net.dv8tion.jda.api.JDA;
@@ -36,7 +39,8 @@ public class CraftBot {
                 toml.getString("roleId"),
                 toml.getString("interactionsChannel"),
                 toml.getString("interactionsMessage"),
-                toml.getString("systemCommandsRole")
+                toml.getString("systemCommandsRole"),
+                toml.getString("voiceChannelId")
         );
         logger.info("Successfully loaded configuration");
         return config;
@@ -66,7 +70,9 @@ public class CraftBot {
 
         assert config != null;
         jda = JDABuilder.createLight(config.getToken())
-                .addEventListeners(handler, new SystemCommands(), new Interactions())
+                .enableIntents(GatewayIntent.GUILD_VOICE_STATES)
+                .enableCache(CacheFlag.VOICE_STATE)
+                .addEventListeners(handler, new SystemCommands(), new Interactions(), new CustomVoiceCall())
                 .build()
                 .awaitReady();
 
